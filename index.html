@@ -1,15 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Easy App Maker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy App Maker</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+textarea{
+width:100%;
+height:150px;
+padding:10px;
+}
+
+button{
+padding:12px 20px;
+margin-top:10px;
+font-size:18px;
+cursor:pointer;
+}
+
+#output{
+margin-top:20px;
+padding:15px;
+background:#eee;
+border-radius:8px;
+}
+</style>
 </head>
+
 <body>
-    <h1>Easy App Maker</h1>
-    <p>Prompt likho aur app generate karo.</p>
 
-    <textarea rows="6" cols="50"></textarea>
-    <br><br>
+<div class="container">
+<h1>🚀 Easy App Maker</h1>
 
-    <button>Generate App</button>
+<p>Apni website ya app describe karo:</p>
+
+<textarea id="prompt"
+placeholder="Example: Create a restaurant website"></textarea>
+
+<br>
+
+<button onclick="generateApp()">
+Generate App
+</button>
+
+<div id="output"></div>
+</div>
+
+<script>
+function generateApp(){
+let prompt =
+document.getElementById("prompt").value;
+
+document.getElementById("output").innerHTML =
+"<h3>Your Prompt:</h3><p>" + prompt + "</p>";
+}
+</script>
+
 </body>
 </html>
