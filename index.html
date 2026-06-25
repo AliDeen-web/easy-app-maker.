@@ -1,43 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easy App Maker</title>
+<title>Easy App Maker AI</title>
 
 <style>
-body{
-font-family:Arial,sans-serif;
-background:#f4f4f4;
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#0f172a,#1e1b4b,#312e81);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 padding:20px;
+color:white;
 }
 
 .container{
-max-width:800px;
-margin:auto;
-background:white;
-padding:20px;
-border-radius:10px;
+width:100%;
+max-width:900px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-radius:25px;
+padding:30px;
+box-shadow:0 0 40px rgba(139,92,246,0.4);
+}
+
+.logo{
+font-size:40px;
+text-align:center;
+margin-bottom:10px;
+}
+
+h1{
+text-align:center;
+font-size:42px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+opacity:0.8;
+margin-bottom:25px;
 }
 
 textarea{
 width:100%;
-height:150px;
-padding:10px;
+height:180px;
+border:none;
+outline:none;
+border-radius:15px;
+padding:15px;
+font-size:16px;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+textarea::placeholder{
+color:#cbd5e1;
 }
 
 button{
-padding:12px 20px;
-margin-top:10px;
+width:100%;
+margin-top:15px;
+padding:16px;
+border:none;
+border-radius:15px;
 font-size:18px;
+font-weight:bold;
 cursor:pointer;
+background:linear-gradient(90deg,#8b5cf6,#3b82f6);
+color:white;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 #output{
+margin-top:25px;
+padding:20px;
+border-radius:15px;
+background:rgba(255,255,255,0.08);
+min-height:100px;
+}
+
+.feature-box{
+display:flex;
+gap:15px;
 margin-top:20px;
+flex-wrap:wrap;
+}
+
+.feature{
+flex:1;
+min-width:150px;
+background:rgba(255,255,255,0.08);
 padding:15px;
-background:#eee;
-border-radius:8px;
+border-radius:15px;
+text-align:center;
 }
 </style>
 </head>
@@ -45,29 +113,40 @@ border-radius:8px;
 <body>
 
 <div class="container">
-<h1>🚀 Easy App Maker</h1>
 
-<p>Apni website ya app describe karo:</p>
+<div class="logo">🚀</div>
+
+<h1>Easy App Maker AI</h1>
+
+<p class="subtitle">
+Build websites and apps with AI using prompts
+</p>
 
 <textarea id="prompt"
-placeholder="Example: Create a restaurant website"></textarea>
-
-<br>
+placeholder="Example: Create a modern restaurant website with online ordering"></textarea>
 
 <button onclick="generateApp()">
-Generate App
+⚡ Generate App
 </button>
 
-<div id="output"></div>
+<div id="output">
+Your generated app will appear here...
+</div>
+
+<div class="feature-box">
+<div class="feature">🤖 AI Powered</div>
+<div class="feature">⚡ Fast Generation</div>
+<div class="feature">📱 Mobile Friendly</div>
+</div>
+
 </div>
 
 <script>
 function generateApp(){
-let prompt =
-document.getElementById("prompt").value;
+let prompt=document.getElementById("prompt").value;
 
-document.getElementById("output").innerHTML =
-"<h3>Your Prompt:</h3><p>" + prompt + "</p>";
+document.getElementById("output").innerHTML=
+"<h2>Prompt Received</h2><br>"+prompt;
 }
 </script>
 
