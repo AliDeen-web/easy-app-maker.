@@ -17,91 +17,89 @@ body{
 background:linear-gradient(135deg,#0f172a,#1e3a8a,#312e81);
 color:white;
 min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
 padding:20px;
 }
 
 .container{
-width:100%;
-max-width:1000px;
+max-width:1100px;
+margin:auto;
 background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-border-radius:20px;
-padding:30px;
+padding:20px;
+border-radius:15px;
+backdrop-filter:blur(10px);
 }
 
 h1{
 text-align:center;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-color:#cbd5e1;
-margin-bottom:30px;
+margin-bottom:15px;
 }
 
 .menu{
 display:flex;
-gap:15px;
-flex-wrap:wrap;
+gap:10px;
 justify-content:center;
-margin-bottom:25px;
+margin-bottom:15px;
+flex-wrap:wrap;
 }
 
 .btn{
-padding:12px 20px;
+padding:10px 15px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 cursor:pointer;
-font-weight:bold;
 background:linear-gradient(90deg,#8b5cf6,#3b82f6);
 color:white;
-}
-
-.btn:hover{
-opacity:0.9;
+font-weight:bold;
 }
 
 .box{
 background:rgba(255,255,255,0.07);
-padding:20px;
-border-radius:15px;
-min-height:200px;
+padding:15px;
+border-radius:10px;
 }
 
-input, textarea, select{
-width:100%;
+.hidden{display:none;}
+
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+}
+
+.tab{
+flex:1;
 padding:10px;
-margin-top:10px;
-border:none;
 border-radius:8px;
-outline:none;
+text-align:center;
+cursor:pointer;
+background:rgba(255,255,255,0.1);
+}
+
+.tab.active{
+background:#3b82f6;
 }
 
 textarea{
-height:120px;
+width:100%;
+height:150px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+padding:10px;
+outline:none;
 resize:none;
 }
 
-.hidden{
-display:none;
-}
-
-.card{
-padding:15px;
-margin-top:10px;
-background:rgba(255,255,255,0.08);
+iframe{
+width:100%;
+height:300px;
 border-radius:10px;
-cursor:pointer;
+background:white;
+margin-top:10px;
 }
 
-.card:hover{
-background:rgba(255,255,255,0.15);
-}
 </style>
+
 </head>
 
 <body>
@@ -109,51 +107,50 @@ background:rgba(255,255,255,0.15);
 <div class="container">
 
 <h1>🚀 Easy App Maker AI</h1>
-<p class="subtitle">Build Website • App • Game using AI or Code</p>
 
 <div class="menu">
 <button class="btn" onclick="showAI()">🤖 AI Generate</button>
 <button class="btn" onclick="showCode()">💻 Code Builder</button>
 </div>
 
-<!-- AI SECTION -->
-<div id="aiBox" class="box">
+<!-- AI -->
+<div id="aiSection" class="box">
 
-<h2>🤖 AI Generator</h2>
+<h2>🤖 AI Generate</h2>
+<p>Select type:</p>
 
-<p>Select what you want to build:</p>
+<select id="type">
+<option>Website</option>
+<option>App</option>
+<option>Game</option>
+</select>
 
-<div class="card" onclick="selectType('Website')">🌐 Website</div>
-<div class="card" onclick="selectType('App')">📱 App</div>
-<div class="card" onclick="selectType('Game')">🎮 Game</div>
+<textarea id="prompt" placeholder="Describe your idea..."></textarea>
 
-<div id="promptBox" class="hidden">
+<button class="btn" onclick="generateAI()">Generate</button>
 
-<p style="margin-top:15px;">Describe your idea:</p>
-
-<textarea id="prompt" placeholder="Example: Create a modern portfolio website"></textarea>
-
-<button class="btn" onclick="generate()">Generate</button>
-
-</div>
-
-<div id="result"></div>
+<div id="aiOutput"></div>
 
 </div>
 
 <!-- CODE BUILDER -->
-<div id="codeBox" class="box hidden">
+<div id="codeSection" class="box hidden">
 
 <h2>💻 Code Builder</h2>
 
-<p>Coming in next update 🚀</p>
+<div class="tabs">
+<div class="tab active" onclick="openTab('html')">HTML</div>
+<div class="tab" onclick="openTab('css')">CSS</div>
+<div class="tab" onclick="openTab('js')">JS</div>
+</div>
 
-<p>You will be able to write:</p>
-<ul>
-<li>HTML</li>
-<li>CSS</li>
-<li>JavaScript</li>
-</ul>
+<textarea id="htmlCode" placeholder="Write HTML here"></textarea>
+<textarea id="cssCode" class="hidden" placeholder="Write CSS here"></textarea>
+<textarea id="jsCode" class="hidden" placeholder="Write JS here"></textarea>
+
+<button class="btn" onclick="runCode()">▶ Run</button>
+
+<iframe id="preview"></iframe>
 
 </div>
 
@@ -161,33 +158,66 @@ background:rgba(255,255,255,0.15);
 
 <script>
 
-let selectedType = "";
-
 function showAI(){
-document.getElementById("aiBox").classList.remove("hidden");
-document.getElementById("codeBox").classList.add("hidden");
+document.getElementById("aiSection").classList.remove("hidden");
+document.getElementById("codeSection").classList.add("hidden");
 }
 
 function showCode(){
-document.getElementById("aiBox").classList.add("hidden");
-document.getElementById("codeBox").classList.remove("hidden");
+document.getElementById("aiSection").classList.add("hidden");
+document.getElementById("codeSection").classList.remove("hidden");
 }
 
-function selectType(type){
-selectedType = type;
-document.getElementById("promptBox").classList.remove("hidden");
-document.getElementById("result").innerHTML =
-"<p>Selected: <b>" + type + "</b></p>";
+function openTab(tab){
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+
+event.target.classList.add("active");
+
+document.getElementById("htmlCode").classList.add("hidden");
+document.getElementById("cssCode").classList.add("hidden");
+document.getElementById("jsCode").classList.add("hidden");
+
+if(tab==="html") document.getElementById("htmlCode").classList.remove("hidden");
+if(tab==="css") document.getElementById("cssCode").classList.remove("hidden");
+if(tab==="js") document.getElementById("jsCode").classList.remove("hidden");
+
 }
 
-function generate(){
+function runCode(){
+
+let html = document.getElementById("htmlCode").value;
+let css = document.getElementById("cssCode").value;
+let js = document.getElementById("jsCode").value;
+
+let doc = document.getElementById("preview").contentWindow.document;
+
+doc.open();
+doc.write(`
+<html>
+<head>
+<style>${css}</style>
+</head>
+<body>
+${html}
+
+<script>
+${js}
+<\/script>
+
+</body>
+</html>
+`);
+doc.close();
+
+}
+
+function generateAI(){
+let type = document.getElementById("type").value;
 let prompt = document.getElementById("prompt").value;
 
-document.getElementById("result").innerHTML = `
-<h3>🚀 Generating ${selectedType}...</h3>
-<p><b>Your Idea:</b> ${prompt}</p>
-<p style="color:#cbd5e1;">(Next step: AI will generate real code)</p>
-`;
+document.getElementById("aiOutput").innerHTML =
+"<h3>Generating " + type + "...</h3><p>" + prompt + "</p>";
 }
 
 </script>
