@@ -54,30 +54,12 @@ font-weight:bold;
 
 .box{
 background:rgba(255,255,255,0.07);
-padding:15px;
+padding:18px;
 border-radius:10px;
+margin-top:10px;
 }
 
 .hidden{display:none;}
-
-.tabs{
-display:flex;
-gap:10px;
-margin-bottom:10px;
-}
-
-.tab{
-flex:1;
-padding:10px;
-border-radius:8px;
-text-align:center;
-cursor:pointer;
-background:rgba(255,255,255,0.1);
-}
-
-.tab.active{
-background:#3b82f6;
-}
 
 textarea{
 width:100%;
@@ -98,6 +80,26 @@ background:white;
 margin-top:10px;
 }
 
+/* tabs */
+.tabs{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.tab{
+flex:1;
+padding:10px;
+border-radius:8px;
+text-align:center;
+cursor:pointer;
+background:rgba(255,255,255,0.1);
+}
+
+.tab.active{
+background:#3b82f6;
+}
+
 </style>
 
 </head>
@@ -113,11 +115,15 @@ margin-top:10px;
 <button class="btn" onclick="showCode()">💻 Code Builder</button>
 </div>
 
-<!-- AI -->
+<!-- AI SECTION -->
 <div id="aiSection" class="box">
 
 <h2>🤖 AI Generate</h2>
-<p>Select type:</p>
+
+<p style="color:#cbd5e1;margin-top:5px;">
+Create websites, apps and games using simple prompts.
+Just select type and describe your idea.
+</p>
 
 <select id="type">
 <option>Website</option>
@@ -138,15 +144,19 @@ margin-top:10px;
 
 <h2>💻 Code Builder</h2>
 
+<p style="color:#cbd5e1;margin-top:5px;">
+Write HTML, CSS and JavaScript separately and see live preview instantly.
+</p>
+
 <div class="tabs">
 <div class="tab active" onclick="openTab('html')">HTML</div>
 <div class="tab" onclick="openTab('css')">CSS</div>
 <div class="tab" onclick="openTab('js')">JS</div>
 </div>
 
-<textarea id="htmlCode" placeholder="Write HTML here"></textarea>
-<textarea id="cssCode" class="hidden" placeholder="Write CSS here"></textarea>
-<textarea id="jsCode" class="hidden" placeholder="Write JS here"></textarea>
+<textarea id="htmlCode" placeholder="HTML code"></textarea>
+<textarea id="cssCode" class="hidden" placeholder="CSS code"></textarea>
+<textarea id="jsCode" class="hidden" placeholder="JavaScript code"></textarea>
 
 <button class="btn" onclick="runCode()">▶ Run</button>
 
@@ -171,7 +181,6 @@ document.getElementById("codeSection").classList.remove("hidden");
 function openTab(tab){
 
 document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-
 event.target.classList.add("active");
 
 document.getElementById("htmlCode").classList.add("hidden");
@@ -194,6 +203,7 @@ let doc = document.getElementById("preview").contentWindow.document;
 
 doc.open();
 doc.write(`
+<!DOCTYPE html>
 <html>
 <head>
 <style>${css}</style>
@@ -204,7 +214,6 @@ ${html}
 <script>
 ${js}
 <\/script>
-
 </body>
 </html>
 `);
