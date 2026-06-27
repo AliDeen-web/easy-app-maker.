@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Easy App Maker AI</title>
 
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial;
 }
 
 body{
@@ -28,143 +26,134 @@ padding:20px;
 .container{
 width:100%;
 max-width:1000px;
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,0.08);
 backdrop-filter:blur(15px);
-border-radius:25px;
-padding:40px;
-box-shadow:0 0 30px rgba(0,0,0,.3);
-}
-
-.logo{
-font-size:60px;
-text-align:center;
-margin-bottom:15px;
+border-radius:20px;
+padding:30px;
 }
 
 h1{
 text-align:center;
-font-size:42px;
 margin-bottom:10px;
 }
 
 .subtitle{
 text-align:center;
-color:#d1d5db;
-margin-bottom:35px;
-font-size:18px;
+color:#cbd5e1;
+margin-bottom:30px;
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:25px;
+.menu{
+display:flex;
+gap:15px;
+flex-wrap:wrap;
+justify-content:center;
+margin-bottom:25px;
+}
+
+.btn{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+background:linear-gradient(90deg,#8b5cf6,#3b82f6);
+color:white;
+}
+
+.btn:hover{
+opacity:0.9;
+}
+
+.box{
+background:rgba(255,255,255,0.07);
+padding:20px;
+border-radius:15px;
+min-height:200px;
+}
+
+input, textarea, select{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+outline:none;
+}
+
+textarea{
+height:120px;
+resize:none;
+}
+
+.hidden{
+display:none;
 }
 
 .card{
-background:rgba(255,255,255,.08);
-padding:25px;
-border-radius:20px;
-text-align:center;
-transition:.3s;
+padding:15px;
+margin-top:10px;
+background:rgba(255,255,255,0.08);
+border-radius:10px;
 cursor:pointer;
 }
 
 .card:hover{
-transform:translateY(-8px);
-background:rgba(255,255,255,.12);
+background:rgba(255,255,255,0.15);
 }
-
-.icon{
-font-size:55px;
-margin-bottom:15px;
-}
-
-.card h2{
-margin-bottom:10px;
-}
-
-.card p{
-color:#d1d5db;
-line-height:1.6;
-margin-bottom:20px;
-}
-
-button{
-padding:14px 30px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#8b5cf6,#3b82f6);
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:hover{
-opacity:.9;
-}
-
-.footer{
-text-align:center;
-margin-top:40px;
-color:#cbd5e1;
-}
-
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="logo">🚀</div>
+<h1>🚀 Easy App Maker AI</h1>
+<p class="subtitle">Build Website • App • Game using AI or Code</p>
 
-<h1>Easy App Maker AI</h1>
+<div class="menu">
+<button class="btn" onclick="showAI()">🤖 AI Generate</button>
+<button class="btn" onclick="showCode()">💻 Code Builder</button>
+</div>
 
-<p class="subtitle">
-Build Websites, Apps & Games with AI or Create Them Using Code
-</p>
+<!-- AI SECTION -->
+<div id="aiBox" class="box">
 
-<div class="cards">
+<h2>🤖 AI Generator</h2>
 
-<div class="card">
+<p>Select what you want to build:</p>
 
-<div class="icon">🤖</div>
+<div class="card" onclick="selectType('Website')">🌐 Website</div>
+<div class="card" onclick="selectType('App')">📱 App</div>
+<div class="card" onclick="selectType('Game')">🎮 Game</div>
 
-<h2>AI Generate</h2>
+<div id="promptBox" class="hidden">
 
-<p>
-Create beautiful websites, apps and games simply by writing a prompt.
-</p>
+<p style="margin-top:15px;">Describe your idea:</p>
 
-<button onclick="openAI()">
-Open
-</button>
+<textarea id="prompt" placeholder="Example: Create a modern portfolio website"></textarea>
+
+<button class="btn" onclick="generate()">Generate</button>
 
 </div>
 
-<div class="card">
-
-<div class="icon">💻</div>
-
-<h2>Code Builder</h2>
-
-<p>
-Build your own project using HTML, CSS and JavaScript with live coding.
-</p>
-
-<button onclick="openBuilder()">
-Open
-</button>
+<div id="result"></div>
 
 </div>
 
-</div>
+<!-- CODE BUILDER -->
+<div id="codeBox" class="box hidden">
 
-<div class="footer">
+<h2>💻 Code Builder</h2>
 
-Easy App Maker AI © 2026
+<p>Coming in next update 🚀</p>
+
+<p>You will be able to write:</p>
+<ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JavaScript</li>
+</ul>
 
 </div>
 
@@ -172,16 +161,33 @@ Easy App Maker AI © 2026
 
 <script>
 
-function openAI(){
+let selectedType = "";
 
-alert("AI Generator will be added in the next step.");
-
+function showAI(){
+document.getElementById("aiBox").classList.remove("hidden");
+document.getElementById("codeBox").classList.add("hidden");
 }
 
-function openBuilder(){
+function showCode(){
+document.getElementById("aiBox").classList.add("hidden");
+document.getElementById("codeBox").classList.remove("hidden");
+}
 
-alert("Code Builder will be added in the next step.");
+function selectType(type){
+selectedType = type;
+document.getElementById("promptBox").classList.remove("hidden");
+document.getElementById("result").innerHTML =
+"<p>Selected: <b>" + type + "</b></p>";
+}
 
+function generate(){
+let prompt = document.getElementById("prompt").value;
+
+document.getElementById("result").innerHTML = `
+<h3>🚀 Generating ${selectedType}...</h3>
+<p><b>Your Idea:</b> ${prompt}</p>
+<p style="color:#cbd5e1;">(Next step: AI will generate real code)</p>
+`;
 }
 
 </script>
